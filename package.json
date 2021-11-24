@@ -2,11 +2,18 @@
   "name": "template-node",
   "version": "1.0.0",
   "description": "A skeleton for REST API with node",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Dipanjan Bhowmik",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "koa": "^2.13.4"
+  }
 }
