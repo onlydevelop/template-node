@@ -8,7 +8,10 @@ describe('Items', () => {
     request
       .post('/items')
       .send(test_item)
-      .expect('location', new RegExp('^/items/[0-9a-fA-F]{8}$'))
+      .expect(
+        'location',
+        new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/[0-9]*$')
+      )
       .expect(201, done);
   });
 });
