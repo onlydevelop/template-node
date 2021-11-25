@@ -7,6 +7,6 @@ exports.env = async (ctx, next) => {
 };
 
 exports.db = async (ctx, next) => {
-  ctx.db = await initilize();
+  ctx.db = await initilize(ctx);
   await next();
 };

@@ -1,9 +1,9 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 
-const init = () => {
-  return new Sequelize('dipanjan', 'dipanjan', '', {
-    host: 'localhost',
-    dialect: 'postgres',
+const init = ({ name, user, password, host, dialect }) => {
+  return new Sequelize(name, user, password, {
+    host,
+    dialect,
     logging: console.log,
   });
 };
@@ -28,9 +28,9 @@ const defineItems = (sequelize) => {
   });
 };
 
-exports.initilize = async () => {
+exports.initilize = async (ctx) => {
   try {
-    const sequelize = init();
+    const sequelize = init(ctx.env.db);
     const Items = defineItems(sequelize);
     await sequelize.authenticate();
     return { Items };
