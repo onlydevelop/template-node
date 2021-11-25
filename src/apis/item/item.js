@@ -1,15 +1,13 @@
-const { Items } = require('../../../middleware/db.middleware');
-
 exports.add = async (ctx) => {
   const { name, price } = ctx.request.body;
-  const item = await Items.create({ name, price });
+  const item = await ctx.db.Items.create({ name, price });
   const id = item.id;
   ctx.set('location', `${ctx.request.href}/${id}`);
   ctx.status = 201;
 };
 
 exports.get = async (ctx) => {
-  const item = await Items.findOne({
+  const item = await ctx.db.Items.findOne({
     where: {
       id: ctx.params.id,
     },

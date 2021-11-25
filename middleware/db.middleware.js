@@ -1,33 +1,39 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('dipanjan', 'dipanjan', '', {
-  host: 'localhost',
-  dialect: 'postgres',
-  logging: console.log,
-});
+const init = () => {
+  return new Sequelize('dipanjan', 'dipanjan', '', {
+    host: 'localhost',
+    dialect: 'postgres',
+    logging: console.log,
+  });
+};
 
-exports.Items = sequelize.define('items', {
-  // Model attributes are defined here
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  price: {
-    type: DataTypes.NUMBER,
-    allowNull: false,
-  },
-  createdAt: {
-    type: DataTypes.TIME,
-  },
-  updatedAt: {
-    type: DataTypes.TIME,
-  },
-});
+const defineItems = (sequelize) => {
+  return sequelize.define('items', {
+    // Model attributes are defined here
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    price: {
+      type: DataTypes.NUMBER,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.TIME,
+    },
+    updatedAt: {
+      type: DataTypes.TIME,
+    },
+  });
+};
 
-exports.postgres = async () => {
+exports.initilize = async () => {
   try {
+    const sequelize = init();
+    const Items = defineItems(sequelize);
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    return { Items };
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }

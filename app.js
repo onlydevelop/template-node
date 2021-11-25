@@ -8,9 +8,9 @@ const middleware = require('./middleware/middleware');
 app
   .use(middleware.env)
   .use(bodyParser())
+  .use(middleware.db)
   .use(router.routes())
-  .use(router.allowedMethods())
-  .use(middleware.db);
+  .use(router.allowedMethods());
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000...');
