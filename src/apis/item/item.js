@@ -7,3 +7,17 @@ exports.add = async (ctx) => {
   ctx.set('location', `${ctx.request.href}/${id}`);
   ctx.status = 201;
 };
+
+exports.get = async (ctx) => {
+  const item = await Items.findOne({
+    where: {
+      id: ctx.params.id,
+    },
+  });
+  if (item) {
+    ctx.body = item;
+    ctx.status = 200;
+  } else {
+    ctx.status = 404;
+  }
+};

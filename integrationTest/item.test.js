@@ -14,4 +14,17 @@ describe('Items', () => {
       )
       .expect(201, done);
   });
+
+  it('GET /items/:id - valid gets 200', (done) => {
+    request
+      .get('/items/1')
+      .expect(new RegExp('"id":[0-9]+'))
+      .expect(new RegExp('"name":[^ ]+'))
+      .expect(new RegExp('"price":"[0-9]{1,9}(.)[0-9]{2}'))
+      .expect(200, done);
+  });
+
+  it('GET /items/:id - invalid gets 404', (done) => {
+    request.get('/items/0').expect(404, done);
+  });
 });
