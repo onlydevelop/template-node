@@ -1,5 +1,11 @@
-DROP TABLE items;
-DROP TABLE users;
+ALTER TABLE IF EXISTS cart 
+  DROP CONSTRAINT IF EXISTS fk_user;
+ALTER TABLE IF EXISTS cart 
+  DROP CONSTRAINT IF EXISTS fk_item;
+
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS items CASCADE;
 
 CREATE TABLE ITEMS (
     id serial PRIMARY KEY,
@@ -15,4 +21,18 @@ CREATE TABLE USERS (
     address VARCHAR(50) NOT NULL,
     "createdAt" TIMESTAMP NOT NULL,
     "updatedAt" TIMESTAMP NOT NULL
+);
+
+CREATE TABLE CART (
+    id serial PRIMARY KEY,
+    userid INT,
+    itemid INT,
+    CONSTRAINT fk_user
+      FOREIGN KEY(userid) 
+	  REFERENCES users(id)
+      ON DELETE CASCADE,
+    CONSTRAINT fk_item
+      FOREIGN KEY(itemid) 
+	  REFERENCES items(id)
+      ON DELETE CASCADE
 );

@@ -13,3 +13,17 @@ CREATE TABLE USERS (
     "createdAt" TIMESTAMP NOT NULL,
     "updatedAt" TIMESTAMP NOT NULL
 );
+
+CREATE TABLE CART (
+    id serial PRIMARY KEY,
+    userid INTEGER NOT NULL,
+    itemid INTEGER NOT NULL,
+    "createdAt" TIMESTAMP NOT NULL,
+    "updatedAt" TIMESTAMP NOT NULL,
+    CONSTRAINT fk_user
+      FOREIGN KEY(userid) 
+	  REFERENCES users(id),
+    CONSTRAINT fk_item
+      FOREIGN KEY(itemid) 
+	  REFERENCES items(id)
+);
