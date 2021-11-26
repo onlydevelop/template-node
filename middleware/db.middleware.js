@@ -1,10 +1,18 @@
 const { Sequelize, Model, DataTypes } = require('sequelize');
 
-const init = ({ name, user, password, host, dialect }) => {
+const init = ({ name, user, password, host, dialect, test }) => {
+  if (test) {
+    // TODO: Use Sqlite3 for testing
+    // return new Sequelize({
+    //   dialect: 'sqlite',
+    //   storage: ':memory:',
+    // });
+    name = 'test';
+  }
+
   return new Sequelize(name, user, password, {
     host,
     dialect,
-    logging: console.log,
   });
 };
 
@@ -32,6 +40,7 @@ exports.initilize = async (ctx) => {
   try {
     const sequelize = init(ctx.env.db);
     const Items = defineItems(sequelize);
+    await Items.sync();
     await sequelize.authenticate();
     return { Items };
   } catch (error) {

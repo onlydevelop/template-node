@@ -8,7 +8,7 @@ exports.env = () => {
       password: proc['DB_PASSWORD'] || 'password',
       host: proc['DB_HOST'] || 'localhost',
       dialect: proc['DB_DIALECT'] || 'postgres',
-      inmemory: proc['DB_INMEMORY'] || false,
+      test: proc['DB_TEST'] || false,
     },
   };
 };

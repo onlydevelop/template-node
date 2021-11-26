@@ -19,3 +19,13 @@ exports.get = async (ctx) => {
     ctx.status = 404;
   }
 };
+
+exports.getAll = async (ctx) => {
+  const item = await ctx.db.Items.findAll();
+  if (item) {
+    ctx.body = item;
+    ctx.status = 200;
+  } else {
+    ctx.status = 404;
+  }
+};
