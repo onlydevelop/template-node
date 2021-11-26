@@ -13,6 +13,7 @@ const init = ({ name, user, password, host, dialect, test }) => {
   return new Sequelize(name, user, password, {
     host,
     dialect,
+    logging: false,
   });
 };
 

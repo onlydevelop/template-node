@@ -20,7 +20,6 @@ const cleanup = () => {
     console.log(err, res);
     pool.end();
   });
-  console.log('===============');
 };
 
 // Setup
@@ -40,7 +39,7 @@ describe('Items', () => {
       .expect(201, done);
   });
 
-  it('GET /items/:id - valid gets 200', (done) => {
+  it('GET /items/1 - valid gets 200', (done) => {
     request
       .get('/items/1')
       .expect((res) => {
@@ -58,8 +57,8 @@ describe('Items', () => {
       );
   });
 
-  it('GET /items/:id - invalid gets 404', (done) => {
-    request.get('/items/0').expect(404, done);
+  it('GET /items/2 - invalid gets 404', (done) => {
+    request.get('/items/2').expect(404, done);
   });
 
   it('GET /items - valid gets 200', (done) => {
@@ -93,13 +92,6 @@ describe('Items', () => {
   });
 
   it('Update /items/2 - new gets 201', (done) => {
-    request
-      .put('/items/9')
-      .send(update_item)
-      .expect(
-        'location',
-        new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/[0-9]+$')
-      )
-      .expect(201, done);
+    request.put('/items/2').send(update_item).expect(404, done);
   });
 });
