@@ -1,11 +1,13 @@
 const Koa = require('koa');
 const app = new Koa();
+var json = require('koa-json');
 var bodyParser = require('koa-bodyparser');
 const router = require('./routes');
 const middleware = require('./middleware/middleware');
 
 // middlewares
 app
+  .use(json())
   .use(middleware.env)
   .use(bodyParser())
   .use(middleware.db)

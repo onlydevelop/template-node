@@ -30,25 +30,32 @@ after(cleanup);
 
 describe('Items', () => {
   const test_item = { name: 'Apple', price: 5 };
+  const update_item = { name: 'Banana', price: 1.5 };
 
   it('POST /items', (done) => {
     request
       .post('/items')
       .send(test_item)
-      .expect(
-        'location',
-        new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/[0-9]*$')
-      )
+      .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/1$'))
       .expect(201, done);
   });
 
   it('GET /items/:id - valid gets 200', (done) => {
     request
       .get('/items/1')
-      .expect(new RegExp('"id":[0-9]+'))
-      .expect(new RegExp('"name":[^ ]+'))
-      .expect(new RegExp('"price":"[0-9]{1,9}(.)[0-9]{2}'))
-      .expect(200, done);
+      .expect((res) => {
+        const { createdAt, updatedAt, ...rest } = res.body;
+        res.body = rest;
+      })
+      .expect(
+        200,
+        {
+          id: 1,
+          name: 'Apple',
+          price: '5.00',
+        },
+        done
+      );
   });
 
   it('GET /items/:id - invalid gets 404', (done) => {
@@ -64,6 +71,35 @@ describe('Items', () => {
       .expect((res) => {
         res.body = res.body.map(({ createdAt, updatedAt, ...rest }) => rest);
       })
-      .expect(200, [{ id: 1, name: 'Apple', price: '5.00' }], done);
+      .expect(
+        200,
+        [
+          {
+            id: 1,
+            name: 'Apple',
+            price: '5.00',
+          },
+        ],
+        done
+      );
+  });
+
+  it('Update /items/1 - valid gets 200', (done) => {
+    request
+      .put('/items/1')
+      .send(update_item)
+      .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/1$'))
+      .expect(200, done);
+  });
+
+  it('Update /items/2 - new gets 201', (done) => {
+    request
+      .put('/items/9')
+      .send(update_item)
+      .expect(
+        'location',
+        new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/[0-9]+$')
+      )
+      .expect(201, done);
   });
 });
