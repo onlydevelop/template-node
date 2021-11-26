@@ -1,6 +1,5 @@
 const { Sequelize } = require('sequelize');
-const items = require('../model/Items');
-const users = require('../model/Users');
+const models = require('../model/models');
 
 const init = ({ name, user, password, host, dialect, test }) => {
   if (test) {
@@ -24,19 +23,11 @@ exports.initilize = async (ctx) => {
     // Initialize
     const sequelize = init(ctx.env.db);
 
-    // Item
-    const Items = items.define(sequelize);
-    await Items.sync();
-
-    // User
-    const Users = users.define(sequelize);
-    await Users.sync();
-
     // Authenticate
     await sequelize.authenticate();
 
-    // Send the models
-    return { Items, Users };
+    // Load models
+    return models.load(sequelize);
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
