@@ -1,5 +1,3 @@
-const addItem = async (ctx) => {};
-
 exports.add = async (ctx) => {
   const { name, price } = ctx.request.body;
   try {

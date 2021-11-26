@@ -37,13 +37,36 @@ const defineItems = (sequelize) => {
   });
 };
 
+const defineUsers = (sequelize) => {
+  return sequelize.define('users', {
+    // Model attributes are defined here
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    createdAt: {
+      type: DataTypes.TIME,
+    },
+    updatedAt: {
+      type: DataTypes.TIME,
+    },
+  });
+};
+
 exports.initilize = async (ctx) => {
   try {
     const sequelize = init(ctx.env.db);
     const Items = defineItems(sequelize);
+    const Users = defineUsers(sequelize);
     await Items.sync();
+    await Users.sync();
+
     await sequelize.authenticate();
-    return { Items };
+    return { Items, Users };
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
