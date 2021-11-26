@@ -1,4 +1,6 @@
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const { Sequelize } = require('sequelize');
+const items = require('../model/Items');
+const users = require('../model/Users');
 
 const init = ({ name, user, password, host, dialect, test }) => {
   if (test) {
@@ -17,55 +19,23 @@ const init = ({ name, user, password, host, dialect, test }) => {
   });
 };
 
-const defineItems = (sequelize) => {
-  return sequelize.define('items', {
-    // Model attributes are defined here
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    price: {
-      type: DataTypes.NUMBER,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.TIME,
-    },
-    updatedAt: {
-      type: DataTypes.TIME,
-    },
-  });
-};
-
-const defineUsers = (sequelize) => {
-  return sequelize.define('users', {
-    // Model attributes are defined here
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    createdAt: {
-      type: DataTypes.TIME,
-    },
-    updatedAt: {
-      type: DataTypes.TIME,
-    },
-  });
-};
-
 exports.initilize = async (ctx) => {
   try {
+    // Initialize
     const sequelize = init(ctx.env.db);
-    const Items = defineItems(sequelize);
-    const Users = defineUsers(sequelize);
+
+    // Item
+    const Items = items.define(sequelize);
     await Items.sync();
+
+    // User
+    const Users = users.define(sequelize);
     await Users.sync();
 
+    // Authenticate
     await sequelize.authenticate();
+
+    // Send the models
     return { Items, Users };
   } catch (error) {
     console.error('Unable to connect to the database:', error);
