@@ -70,22 +70,14 @@ exports.delete = async (ctx) => {
   });
 
   if (item) {
-    const { name, price } = ctx.request.body;
-
-    if (name) item.name = name;
-    if (price) item.price = price;
-
     try {
-      await item.save();
-      ctx.set('location', `${ctx.request.href}`);
-      ctx.status = 200;
+      await item.destroy();
+      ctx.status = 204;
     } catch (error) {
       ctx.status = 500;
     } finally {
     }
   } else {
-    const index = ctx.request.href.lastIndexOf('/');
-    ctx.request.href = ctx.request.href.slice(0, index);
-    return addItem(ctx, true);
+    ctx.status = 404;
   }
 };

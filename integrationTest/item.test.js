@@ -91,7 +91,15 @@ describe('Items', () => {
       .expect(200, done);
   });
 
-  it('Update /items/2 - new gets 201', (done) => {
+  it('Update /items/2 - gets 404', (done) => {
     request.put('/items/2').send(update_item).expect(404, done);
+  });
+
+  it('Delete /items/1 - gets 204', (done) => {
+    request.delete('/items/1').expect(204, done);
+  });
+
+  it('Delete /items/1 - gets 404', (done) => {
+    request.delete('/items/2').expect(404, done);
   });
 });
