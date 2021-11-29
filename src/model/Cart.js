@@ -5,19 +5,9 @@ exports.define = (sequelize, refs) => {
 
   const Cart = sequelize.define('carts', {
     // Model attributes are defined here
-    userid: {
+    quantity: {
       type: DataTypes.INTEGER,
-      references: {
-        model: Users,
-        key: 'id',
-      },
-    },
-    itemid: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Items,
-        key: 'id',
-      },
+      default: 0,
     },
   });
 

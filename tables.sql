@@ -18,6 +18,7 @@ CREATE TABLE CART (
     id serial PRIMARY KEY,
     userid INTEGER NOT NULL,
     itemid INTEGER NOT NULL,
+    quantity INTEGER NOT NULL,
     "createdAt" TIMESTAMP NOT NULL,
     "updatedAt" TIMESTAMP NOT NULL,
     CONSTRAINT fk_user

@@ -8,7 +8,7 @@ exports.define = (sequelize) => {
       allowNull: false,
     },
     price: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.DECIMAL(11, 2),
       allowNull: false,
     },
     createdAt: {

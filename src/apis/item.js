@@ -11,11 +11,7 @@ exports.add = async (ctx) => {
 };
 
 exports.get = async (ctx) => {
-  const item = await ctx.db.Items.findOne({
-    where: {
-      id: ctx.params.id,
-    },
-  });
+  const item = await ctx.db.Items.findByPk(ctx.params.id);
   if (item) {
     ctx.body = item;
     ctx.status = 200;
@@ -35,11 +31,7 @@ exports.getAll = async (ctx) => {
 };
 
 exports.update = async (ctx) => {
-  const item = await ctx.db.Items.findOne({
-    where: {
-      id: ctx.params.id,
-    },
-  });
+  const item = await ctx.db.Items.findByPk(ctx.params.id);
 
   if (item) {
     const { name, price } = ctx.request.body;
