@@ -18,5 +18,6 @@ router.put('/users/:id', Users.update);
 router.delete('/users/:id', Users.delete);
 
 router.post('/carts/:userId', Carts.add);
+router.get('/carts/:userId', Carts.get);
 
 module.exports = router;
