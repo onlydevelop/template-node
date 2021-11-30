@@ -20,10 +20,12 @@
   },
   "dependencies": {
     "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-joi-validate-middleware": "^1.1.7",
     "koa-json": "^2.0.2",
+    "koa-jwt": "^4.0.3",
     "koa-router": "^10.1.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.12.0-alpha.1"

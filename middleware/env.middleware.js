@@ -10,5 +10,8 @@ exports.env = () => {
       dialect: proc['DB_DIALECT'] || 'postgres',
       test: proc['DB_TEST'] || false,
     },
+    auth: {
+      secret: proc['AUTH_SECRET'] || 'super-secret',
+    },
   };
 };
