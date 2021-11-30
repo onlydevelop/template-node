@@ -26,7 +26,7 @@ exports.add = async (ctx) => {
   }
 };
 
-exports.get = async (ctx) => {
+exports.getAll = async (ctx) => {
   const query = {
     where: { id: ctx.params.userId },
     attributes: ['id', 'name', 'address'],
@@ -62,58 +62,110 @@ exports.get = async (ctx) => {
   }
 };
 
-// exports.getAll = async (ctx) => {
-//   const item = await ctx.db.Items.findAll();
-//   if (item) {
-//     ctx.body = item;
-//     ctx.status = 200;
-//   } else {
-//     ctx.status = 404;
-//   }
-// };
+exports.get = async (ctx) => {
+  const userId = ctx.params.userId;
+  const cartId = ctx.params.cartId;
+  try {
+    const user = await ctx.db.Users.findByPk(userId);
+    const cart = await ctx.db.Cart.findByPk(cartId);
 
-// exports.update = async (ctx) => {
-//   const item = await ctx.db.Items.findOne({
-//     where: {
-//       id: ctx.params.id,
-//     },
-//   });
+    if (!user || !cart) {
+      ctx.status = 404;
+      return;
+    }
 
-//   if (item) {
-//     const { name, price } = ctx.request.body;
+    const query = {
+      where: { id: userId },
+      attributes: ['id', 'name', 'address'],
+      include: {
+        model: ctx.db.Cart,
+        where: { id: cartId },
+        attributes: ['id', 'userId', 'quantity'],
+        include: {
+          model: ctx.db.Items,
+          attributes: ['id', 'name', 'price'],
+        },
+      },
+    };
 
-//     if (name) item.name = name;
-//     if (price) item.price = price;
+    const item = await ctx.db.Users.findOne(query);
 
-//     try {
-//       await item.save();
-//       ctx.set('location', `${ctx.request.href}`);
-//       ctx.status = 200;
-//     } catch (error) {
-//       ctx.status = 500;
-//     } finally {
-//     }
-//   } else {
-//     ctx.status = 404;
-//   }
-// };
+    if (item) {
+      ctx.body = item;
+      ctx.status = 200;
+    } else {
+      ctx.status = 404;
+    }
+  } catch (error) {
+    ctx.status = 500;
+  } finally {
+  }
+};
 
-// exports.delete = async (ctx) => {
-//   const item = await ctx.db.Items.findOne({
-//     where: {
-//       id: ctx.params.id,
-//     },
-//   });
+exports.update = async (ctx) => {
+  const userId = ctx.params.userId;
+  const cartId = ctx.params.cartId;
+  const { itemId, quantity } = ctx.request.body;
 
-//   if (item) {
-//     try {
-//       await item.destroy();
-//       ctx.status = 204;
-//     } catch (error) {
-//       ctx.status = 500;
-//     } finally {
-//     }
-//   } else {
-//     ctx.status = 404;
-//   }
-// };
+  try {
+    const user = await ctx.db.Users.findByPk(userId);
+    const item = await ctx.db.Items.findByPk(itemId);
+    const cart = await ctx.db.Cart.findByPk(cartId);
+
+    if (!user || !item || !cart) {
+      ctx.status = 404;
+      return;
+    }
+
+    cart.quantity = quantity;
+    await cart.save();
+
+    ctx.set('location', `${ctx.request.href}`);
+    ctx.status = 200;
+  } catch (error) {
+    ctx.status = 500;
+  } finally {
+  }
+};
+
+exports.delete = async (ctx) => {
+  const userId = ctx.params.userId;
+  const cartId = ctx.params.cartId;
+
+  try {
+    const user = await ctx.db.Users.findByPk(userId);
+    const cart = await ctx.db.Cart.findByPk(cartId);
+
+    if (!user || !cart) {
+      ctx.status = 404;
+      return;
+    }
+
+    await cart.destroy();
+    ctx.status = 204;
+  } catch (error) {
+    ctx.status = 500;
+  } finally {
+  }
+};
+
+exports.deleteAll = async (ctx) => {
+  const userId = ctx.params.userId;
+  try {
+    const user = await ctx.db.Users.findByPk(userId);
+    if (!user) {
+      ctx.status = 404;
+      return;
+    }
+
+    await cart.destroy({
+      where: {
+        userId,
+      },
+    });
+    ctx.status = 204;
+  } catch (error) {
+    ctx.status = 500;
+  } finally {
+  }
+};

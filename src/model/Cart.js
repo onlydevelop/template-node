@@ -20,9 +20,15 @@ exports.define = (sequelize, refs) => {
   Users.belongsToMany(Items, { through: Cart });
   Items.belongsToMany(Users, { through: Cart });
 
-  Users.hasMany(Cart);
+  Users.hasMany(Cart, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  });
   Cart.belongsTo(Users);
-  Items.hasMany(Cart);
+  Items.hasMany(Cart, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  });
   Cart.belongsTo(Items);
 
   return Cart;

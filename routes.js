@@ -23,6 +23,10 @@ router.delete('/users/:id', Users.delete);
 // The decrypted profile from jwt token is available in ctx.state.user
 router.post('/carts/:userId', validators.postCart, auth, Carts.add);
 // curl -i "localhost:3000/carts/3?desc=true&offset=2&limit=2"
-router.get('/carts/:userId', auth, Carts.get);
+router.get('/carts/:userId', auth, Carts.getAll);
+router.get('/carts/:userId/:cartId', auth, Carts.get);
+router.put('/carts/:userId/:cartId', auth, Carts.update);
+router.delete('/carts/:userId/:cartId', auth, Carts.delete);
+router.delete('/carts/:userId', auth, Carts.deleteAll);
 
 module.exports = router;
