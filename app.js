@@ -4,11 +4,7 @@ var json = require('koa-json');
 var bodyParser = require('koa-bodyparser');
 const router = require('./routes');
 const middleware = require('./middleware/middleware');
-
-const jwt = require('jsonwebtoken');
-const profile = {
-  email: 'someone@somewhere.com',
-};
+const { showToken } = require('./middleware/auth.middleware');
 
 // middlewares
 app
@@ -21,7 +17,7 @@ app
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000...');
-  console.log('TOKEN = ' + jwt.sign(profile, 'secret'));
+  showToken(); // For debug purpose
 });
 
 module.exports = app;
