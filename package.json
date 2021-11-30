@@ -19,8 +19,10 @@
     "supertest": "^6.1.6"
   },
   "dependencies": {
+    "joi": "^17.4.2",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
+    "koa-joi-validate-middleware": "^1.1.7",
     "koa-json": "^2.0.2",
     "koa-router": "^10.1.1",
     "pg-hstore": "^2.3.4",
