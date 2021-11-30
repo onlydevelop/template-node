@@ -14,7 +14,7 @@ const init = ({ name, user, password, host, dialect, test }) => {
   const seq = new Sequelize(name, user, password, {
     host,
     dialect,
-    logging: false,
+    logging: true,
   });
 
   return seq;

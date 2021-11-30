@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 exports.add = async (ctx) => {
   const userId = ctx.params.userId;
   const { itemId, quantity } = ctx.request.body;
@@ -25,20 +27,32 @@ exports.add = async (ctx) => {
 };
 
 exports.get = async (ctx) => {
-  const userId = ctx.params.userId;
-
-  const items = await ctx.db.Users.findOne({
-    where: { id: userId },
+  const query = {
+    where: { id: ctx.params.userId },
     attributes: ['id', 'name', 'address'],
     include: {
       model: ctx.db.Cart,
-      attributes: ['id', 'quantity'],
+      attributes: ['id', 'userId', 'quantity'],
       include: {
         model: ctx.db.Items,
         attributes: ['id', 'name', 'price'],
       },
     },
-  });
+  };
+
+  // Order
+  query.include.order = ctx.request.query.desc ? [['id', 'DESC']] : '';
+  // Pagination
+  query.include.offset = ctx.request.query.offset || 0;
+  query.include.limit = ctx.request.query.limit || 3;
+  // Between condition
+  // query.include.where = {
+  //   id: {
+  //     [Op.between]: [10, 17],
+  //   },
+  // };
+
+  const items = await ctx.db.Users.findOne(query);
 
   if (items) {
     ctx.body = items;

@@ -18,6 +18,7 @@ router.put('/users/:id', Users.update);
 router.delete('/users/:id', Users.delete);
 
 router.post('/carts/:userId', Carts.add);
+// curl -i "localhost:3000/carts/3?desc=true&offset=2&limit=2"
 router.get('/carts/:userId', Carts.get);
 
 module.exports = router;
