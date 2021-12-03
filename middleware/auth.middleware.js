@@ -11,5 +11,5 @@ exports.showToken = () => {
 };
 
 exports.auth = koaJwt({
-  secret: secret,
+  secret,
 });
