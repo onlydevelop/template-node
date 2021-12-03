@@ -162,7 +162,7 @@ exports.deleteAll = async (ctx) => {
       return;
     }
 
-    await cart.destroy({
+    await ctx.db.Cart.destroy({
       where: {
         userId,
       },
