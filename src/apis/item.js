@@ -7,6 +7,7 @@ exports.add = async (ctx) => {
   } catch (error) {
     ctx.status = 500;
   } finally {
+    ctx.db.sequelize.close();
   }
 };
 
@@ -46,6 +47,7 @@ exports.update = async (ctx) => {
     } catch (error) {
       ctx.status = 500;
     } finally {
+      ctx.db.sequelize.close();
     }
   } else {
     ctx.status = 404;
@@ -66,6 +68,7 @@ exports.delete = async (ctx) => {
     } catch (error) {
       ctx.status = 500;
     } finally {
+      ctx.db.sequelize.close();
     }
   } else {
     ctx.status = 404;

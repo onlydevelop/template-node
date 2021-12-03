@@ -23,6 +23,7 @@ exports.add = async (ctx) => {
   } catch (error) {
     ctx.status = 500;
   } finally {
+    ctx.db.sequelize.close();
   }
 };
 
@@ -99,6 +100,7 @@ exports.get = async (ctx) => {
   } catch (error) {
     ctx.status = 500;
   } finally {
+    ctx.db.sequelize.close();
   }
 };
 
@@ -125,6 +127,7 @@ exports.update = async (ctx) => {
   } catch (error) {
     ctx.status = 500;
   } finally {
+    ctx.db.sequelize.close();
   }
 };
 
@@ -146,6 +149,7 @@ exports.delete = async (ctx) => {
   } catch (error) {
     ctx.status = 500;
   } finally {
+    ctx.db.sequelize.close();
   }
 };
 
@@ -167,5 +171,6 @@ exports.deleteAll = async (ctx) => {
   } catch (error) {
     ctx.status = 500;
   } finally {
+    ctx.db.sequelize.close();
   }
 };

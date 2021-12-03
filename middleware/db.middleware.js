@@ -29,7 +29,10 @@ exports.initilize = async (ctx) => {
     await sequelize.authenticate();
 
     // Load models
-    return await models.load(sequelize);
+    const db = await models.load(sequelize);
+    db.sequelize = sequelize;
+
+    return db;
   } catch (error) {
     console.error('Unable to connect to the database:', error);
   }
