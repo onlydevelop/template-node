@@ -5,7 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "check": "DB_TEST=true mocha 'integrationTest/*.test.js' --recursive --timeout 5000 --exit"
+    "check": "DB_TEST=true mocha 'integrationTest/*.test.js' --recursive --timeout 5000 --exit",
+    "integTest": "npm run migrateup && npm run check; npm run migratedown",
+    "migrateup": "knex migrate:up",
+    "migratedown": "knex migrate:down"
   },
   "keywords": [],
   "author": "Dipanjan Bhowmik",
@@ -21,6 +24,7 @@
   "dependencies": {
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
+    "knex": "^0.95.14",
     "koa": "^2.13.4",
     "koa-bodyparser": "^4.3.0",
     "koa-joi-validate-middleware": "^1.1.7",
