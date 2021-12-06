@@ -9,12 +9,13 @@ const init = ({ name, user, password, host, dialect, test }) => {
     //   storage: ':memory:',
     // });
     name = 'test';
+    user = 'dipanjan';
   }
 
   const seq = new Sequelize(name, user, password, {
     host,
     dialect,
-    logging: true,
+    logging: false,
   });
 
   return seq;

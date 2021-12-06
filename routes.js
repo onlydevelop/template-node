@@ -9,8 +9,8 @@ const Users = require('./src/apis/user');
 const Carts = require('./src/apis/cart');
 
 router.post('/items', validators.postItems, auth, Items.add);
-router.get('/items/:id', Items.get);
-router.get('/public/items', auth, Items.getAll);
+router.get('/items/:id', auth, Items.get);
+router.get('/items', auth, Items.getAll);
 router.put('/items/:id', auth, Items.update);
 router.delete('/items/:id', auth, Items.delete);
 

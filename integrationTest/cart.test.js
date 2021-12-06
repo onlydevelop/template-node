@@ -23,9 +23,9 @@ const cleanup = () => {
 };
 
 // Setup
-before(cleanup);
+// before(cleanup);
 // Teardown
-after(cleanup);
+// after(cleanup);
 
 describe('Cart', () => {
   const test_item_1 = { name: 'Apple', price: 5 };
@@ -34,31 +34,31 @@ describe('Cart', () => {
   const test_cart_1 = { itemId: 1, quantity: 5 };
   const test_cart_2 = { itemId: 2, quantity: 2 };
 
-  beforeEach(() => {
-    request.post('/items').send(test_item_1);
-    request.post('/items').send(test_item_2);
-    request.post('/users').send(test_user_1);
-  });
+  // beforeEach(() => {
+  //   request.post('/items').send(test_item_1);
+  //   request.post('/items').send(test_item_2);
+  //   request.post('/users').send(test_user_1);
+  // });
 
-  it('POST /carts', (done) => {
-    request
-      .post('/items')
-      .send(test_item_1)
-      .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/1$'))
-      .expect(201);
+  // it('POST /carts', (done) => {
+  //   request
+  //     .post('/items')
+  //     .send(test_item_1)
+  //     .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/1$'))
+  //     .expect(201);
 
-    request
-      .post('/users')
-      .send(test_user_1)
-      .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/users/1$'))
-      .expect(201);
+  //   request
+  //     .post('/users')
+  //     .send(test_user_1)
+  //     .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/users/1$'))
+  //     .expect(201);
 
-    request
-      .post('/carts/1')
-      .send(test_cart_1)
-      .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/carts/1$'))
-      .expect(201, done);
-  });
+  //   request
+  //     .post('/carts/1')
+  //     .send(test_cart_1)
+  //     .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/carts/1$'))
+  //     .expect(201, done);
+  // });
 
   // it('GET /users/1 - valid gets 200', (done) => {
   //   request
