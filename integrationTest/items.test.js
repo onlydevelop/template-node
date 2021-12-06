@@ -1,9 +1,6 @@
 const app = require('../app');
 const request = require('supertest').agent(app.listen());
-const { knex } = require('./helpers/db.setup');
-
-const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvbWVvbmVAc29tZXdoZXJlLmNvbSIsImlhdCI6MTYzODI3Njg4MX0.TKNBFwx9JTVHm8m-m6fs4k7ZH_bA7pWRry9PH_12yvg';
+const { token, knex } = require('./helper');
 
 describe('Items', () => {
   const test_item = { name: 'Apple', price: 5 };
