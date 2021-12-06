@@ -1,64 +1,32 @@
 const app = require('../app');
 const request = require('supertest').agent(app.listen());
-const { Pool } = require('pg');
-const fs = require('fs');
+const { populate } = require('./test_helpers/db.setup');
 
-// cleanup
-const cleanup = () => {
-  const pool = new Pool({
-    user: 'dipanjan',
-    host: 'localhost',
-    database: 'test',
-    password: '',
-  });
-
-  const seedQuery = fs.readFileSync(`${__dirname}/seed.sql`, {
-    encoding: 'utf-8',
-  });
-
-  pool.query(seedQuery, (err, res) => {
-    console.log(err, res);
-    pool.end();
-  });
-};
+const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvbWVvbmVAc29tZXdoZXJlLmNvbSIsImlhdCI6MTYzODI3Njg4MX0.TKNBFwx9JTVHm8m-m6fs4k7ZH_bA7pWRry9PH_12yvg';
 
 // Setup
-// before(cleanup);
+before(async () => {
+  await populate();
+});
+
 // Teardown
-// after(cleanup);
+after(async () => {
+  await populate();
+});
 
 describe('Cart', () => {
-  const test_item_1 = { name: 'Apple', price: 5 };
-  const test_item_2 = { name: 'Banana', price: 1.5 };
-  const test_user_1 = { name: 'Joe', address: '1 First Street' };
   const test_cart_1 = { itemId: 1, quantity: 5 };
   const test_cart_2 = { itemId: 2, quantity: 2 };
 
-  // beforeEach(() => {
-  //   request.post('/items').send(test_item_1);
-  //   request.post('/items').send(test_item_2);
-  //   request.post('/users').send(test_user_1);
-  // });
-
-  // it('POST /carts', (done) => {
-  //   request
-  //     .post('/items')
-  //     .send(test_item_1)
-  //     .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/items/1$'))
-  //     .expect(201);
-
-  //   request
-  //     .post('/users')
-  //     .send(test_user_1)
-  //     .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/users/1$'))
-  //     .expect(201);
-
-  //   request
-  //     .post('/carts/1')
-  //     .send(test_cart_1)
-  //     .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/carts/1$'))
-  //     .expect(201, done);
-  // });
+  it('POST /carts', (done) => {
+    request
+      .post('/carts/1')
+      .set('Authorization', 'Bearer ' + token)
+      .send(test_cart_1)
+      .expect('location', new RegExp('^http://127.0.0.1:[0-9]{1,5}/carts/1$'))
+      .expect(201, done);
+  });
 
   // it('GET /users/1 - valid gets 200', (done) => {
   //   request

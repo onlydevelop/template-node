@@ -9,6 +9,9 @@ exports.add = async (ctx) => {
     const item = await ctx.db.Items.findByPk(itemId);
 
     if (!user || !item) {
+      console.log('userId = ' + userId + ', user = ' + user);
+      console.log('itemId = ' + itemId + ', item = ' + item);
+
       ctx.status = 404;
       return;
     }

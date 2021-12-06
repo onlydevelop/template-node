@@ -1,33 +1,19 @@
 const app = require('../app');
 const request = require('supertest').agent(app.listen());
-const { Pool } = require('pg');
-const fs = require('fs');
+const { clean } = require('./test_helpers/db.setup');
+
 const token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvbWVvbmVAc29tZXdoZXJlLmNvbSIsImlhdCI6MTYzODI3Njg4MX0.TKNBFwx9JTVHm8m-m6fs4k7ZH_bA7pWRry9PH_12yvg';
 
-// cleanup
-const cleanup = (doneCleanup) => {
-  const pool = new Pool({
-    user: 'dipanjan',
-    host: 'localhost',
-    database: 'test',
-    password: '',
-  });
-
-  const seedQuery = fs.readFileSync(`${__dirname}/seed.sql`, {
-    encoding: 'utf-8',
-  });
-
-  pool.query(seedQuery, (err, res) => {
-    pool.end();
-    doneCleanup();
-  });
-};
-
 // Setup
-before((done) => cleanup(done));
+before(async () => {
+  await clean();
+});
+
 // Teardown
-after((done) => cleanup(done));
+after(async () => {
+  await clean();
+});
 
 describe('Items', () => {
   const test_item = { name: 'Apple', price: 5 };
