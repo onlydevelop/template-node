@@ -22,7 +22,7 @@ const postUsersSchema = {
 
 const postCartSchema = {
   params: joi.object({
-    userId: joi.number().integer().positive().required(),
+    userId: joi.number().positive().integer().required(),
   }),
   body: joi.object({
     itemId: joi.number().positive().integer().required(),
